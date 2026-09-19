@@ -1,0 +1,6 @@
+transaction_id,date,description,amount,transaction_type,category,merchant
+1,2026-09-01,swiggy dinner 450,450,expense,Food,Swiggy
+2,2026-09-02,uber college ride,180,expense,Transport,Uber
+3,2026-09-03,electricity bill,1200,expense,Bills,Electricity
+4,2026-09-04,amazon headphones,2200,expense,Shopping,Amazon
+5,2026-09-05,college books,800,expense,Education,Book Store

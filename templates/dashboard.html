@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block content %}
+<div class="pagehead"><div><span class="tag">OVERVIEW</span><h1>Hello, {{name}} 👋</h1><p>Your personal finance command center.</p></div><a class="btn" href="{{url_for('transactions')}}">+ Add Transaction</a></div>
+<div class="cards"><div class="card"><small>Total Income</small><h2>₹{{"{:,.2f}".format(income)}}</h2></div><div class="card"><small>Total Expenses</small><h2>₹{{"{:,.2f}".format(expense)}}</h2></div><div class="card"><small>Available Balance</small><h2>₹{{"{:,.2f}".format(balance)}}</h2></div><div class="card"><small>Next Month Estimate</small><h2>₹{{"{:,.2f}".format(forecast)}}</h2></div></div>
+<div class="grid"><section class="panel"><h3>Monthly Spending Trend</h3><canvas id="trend"></canvas></section><section class="panel"><h3>AI Financial Insight</h3><div class="insight">{{insight}}</div><h3>Top Categories</h3>{% for c in categories[:5] %}<div class="barrow"><span>{{c.category}}</span><b>₹{{"{:,.0f}".format(c.total)}}</b></div>{% endfor %}</section></div>
+<section class="panel"><h3>Recent Transactions</h3><table><tr><th>Date</th><th>Description</th><th>Type</th><th>Category</th><th>Amount</th></tr>{% for t in recent %}<tr><td>{{t.date}}</td><td>{{t.description}}</td><td>{{t.type}}</td><td>{{t.category}}</td><td>₹{{"{:,.2f}".format(t.amount)}}</td></tr>{% endfor %}</table></section>
+<script>
+fetch("/api/chart").then(r=>r.json()).then(d=>new Chart(document.getElementById("trend"),{type:"line",data:{labels:d.months,datasets:[{label:"Income",data:d.income},{label:"Expenses",data:d.expense}]},options:{responsive:true}}));
+</script>
+{% endblock %}

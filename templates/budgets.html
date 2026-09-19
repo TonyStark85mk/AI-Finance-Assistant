@@ -1,0 +1,5 @@
+{% extends "base.html" %}{% block content %}
+<div class="pagehead"><div><span class="tag">BUDGETS</span><h1>Budget Management</h1><p>Set monthly category limits.</p></div></div>
+<div class="grid"><section class="panel"><h3>Create / Update Budget</h3><form method="post"><label>Month</label><input name="month" type="month" value="{{month}}" required><label>Category</label><select name="category">{% for c in categories %}<option>{{c}}</option>{% endfor %}</select><label>Limit (₹)</label><input name="limit" type="number" min="1" step="0.01" required><button class="btn">Save Budget</button></form></section>
+<section class="panel"><h3>Your Budgets</h3><table><tr><th>Month</th><th>Category</th><th>Limit</th></tr>{% for b in budgets %}<tr><td>{{b.month}}</td><td>{{b.category}}</td><td>₹{{"{:,.2f}".format(b.limit_amount)}}</td></tr>{% endfor %}</table></section></div>
+{% endblock %}
