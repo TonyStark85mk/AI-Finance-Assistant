@@ -222,6 +222,7 @@ def chart():
     expense=[next((r["total"] for r in rows if r["month"]==m and r["type"]=="expense"),0) for m in months]
     return jsonify({"months":months,"income":income,"expense":expense})
 
-if __name__=="__main__":
-    init_db()
-    app.run(debug=True)
+init_db()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
