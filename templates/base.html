@@ -1,20 +1,456 @@
 <!doctype html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AI Finance Assistant</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Finance Assistant</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
+
+
 <body>
-<nav>
-<a class="brand" href="{{ url_for('index') }}">AI Finance Assistant</a>
+
 {% if session.get('user_id') %}
-<div class="navlinks"><a href="{{ url_for('dashboard') }}">Dashboard</a><a href="{{ url_for('transactions') }}">Transactions</a><a href="{{ url_for('budgets') }}">Budgets</a><a href="{{ url_for('logout') }}">Logout</a></div>
-{% else %}<div><a href="{{ url_for('login') }}">Login</a><a href="{{ url_for('register') }}">Register</a></div>{% endif %}
-</nav>
-<main>
-{% with messages=get_flashed_messages() %}{% if messages %}<div class="flash">{% for m in messages %}<div>{{m}}</div>{% endfor %}</div>{% endif %}{% endwith %}
-{% block content %}{% endblock %}
+
+<div class="app-shell">
+
+
+    <!-- ==========================================
+         TOP NAVIGATION
+    =========================================== -->
+
+    <header class="topbar">
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="brand"
+        >
+
+            <div class="brand-mark">
+                <span>✦</span>
+            </div>
+
+            <div class="brand-text">
+                <strong>AI Finance</strong>
+                <span>Assistant</span>
+            </div>
+
+        </a>
+
+
+        <nav class="top-navigation">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="top-nav-item active"
+            >
+                Dashboard
+            </a>
+
+            <a
+                href="{{ url_for('dashboard') }}#performance"
+                class="top-nav-item"
+            >
+                Analytics
+            </a>
+
+            <a
+                href="{{ url_for('transactions') }}"
+                class="top-nav-item"
+            >
+                Transactions
+            </a>
+
+            <a
+                href="{{ url_for('budgets') }}"
+                class="top-nav-item"
+            >
+                Budgets
+            </a>
+
+        </nav>
+
+
+        <div class="top-actions">
+
+            <button
+                class="icon-button"
+                type="button"
+                aria-label="Search"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                >
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-4-4"></path>
+                </svg>
+            </button>
+
+
+            <button
+                class="icon-button notification-button"
+                type="button"
+                aria-label="Notifications"
+            >
+
+                <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                >
+                    <path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path>
+                    <path d="M10 21h4"></path>
+                </svg>
+
+                <span class="notification-dot"></span>
+
+            </button>
+
+
+            <div class="user-profile">
+
+                <div class="user-avatar">
+                    {{ session.get('name', 'U')[0]|upper }}
+                </div>
+
+                <span>
+                    {{ session.get('name', 'User') }}
+                </span>
+
+                <span class="chevron">⌄</span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ==========================================
+         MAIN APP AREA
+    =========================================== -->
+
+    <div class="app-body">
+
+
+        <!-- ======================================
+             LEFT SIDEBAR
+        ======================================= -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-top">
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="side-item active"
+                    title="Dashboard"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path d="M3 11.5L12 4l9 7.5"></path>
+                        <path d="M5 10v10h14V10"></path>
+                        <path d="M9 20v-6h6v6"></path>
+                    </svg>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('dashboard') }}#performance"
+                    class="side-item"
+                    title="Analytics"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path d="M4 19V5"></path>
+                        <path d="M4 19h16"></path>
+                        <path d="M7 15l4-5 3 3 5-7"></path>
+                    </svg>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('transactions') }}"
+                    class="side-item"
+                    title="Transactions"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <rect
+                            x="4"
+                            y="4"
+                            width="6"
+                            height="6"
+                            rx="1"
+                        ></rect>
+
+                        <rect
+                            x="14"
+                            y="4"
+                            width="6"
+                            height="6"
+                            rx="1"
+                        ></rect>
+
+                        <rect
+                            x="4"
+                            y="14"
+                            width="6"
+                            height="6"
+                            rx="1"
+                        ></rect>
+
+                        <rect
+                            x="14"
+                            y="14"
+                            width="6"
+                            height="6"
+                            rx="1"
+                        ></rect>
+                    </svg>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('budgets') }}"
+                    class="side-item"
+                    title="Budgets"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <rect
+                            x="4"
+                            y="6"
+                            width="16"
+                            height="14"
+                            rx="2"
+                        ></rect>
+
+                        <path d="M8 6V4h8v2"></path>
+                        <path d="M8 11h8"></path>
+                        <path d="M8 15h5"></path>
+                    </svg>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('transactions') }}"
+                    class="side-item"
+                    title="Money"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path d="M4 7h16"></path>
+                        <path d="M4 7a2 2 0 0 1 2-2h12"></path>
+                        <path d="M4 7v10a2 2 0 0 0 2 2h12"></path>
+                        <path d="M16 12h5v5h-5a2.5 2.5 0 0 1 0-5z"></path>
+                    </svg>
+
+                </a>
+
+
+                <a
+                    href="{{ url_for('transactions') }}"
+                    class="side-item"
+                    title="Payments"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path d="M3 8h18"></path>
+                        <path d="M5 5h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"></path>
+                        <path d="M7 15h4"></path>
+                    </svg>
+
+                </a>
+
+            </div>
+
+
+            <div class="sidebar-bottom">
+
+                <button
+                    class="side-item"
+                    type="button"
+                    title="Settings"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.8 1.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5v.1h-2.5v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1-1.8-1.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H4v-2.5h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1L7 6.7l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.5v-.1h2.5v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1 1.8 1.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.5 1h.1V14h-.1a1.7 1.7 0 0 0-1.5 1z"></path>
+                    </svg>
+
+                </button>
+
+
+                <a
+                    href="{{ url_for('logout') }}"
+                    class="side-item logout-item"
+                    title="Logout"
+                >
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                    >
+                        <path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"></path>
+                        <path d="M15 16l4-4-4-4"></path>
+                        <path d="M19 12H9"></path>
+                    </svg>
+
+                </a>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- ======================================
+             PAGE CONTENT
+        ======================================= -->
+
+        <main class="main-content">
+
+            {% with messages=get_flashed_messages() %}
+
+                {% if messages %}
+
+                    <div class="flash-container">
+
+                        {% for m in messages %}
+
+                            <div class="flash">
+                                {{ m }}
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endwith %}
+
+
+            {% block content %}{% endblock %}
+
+        </main>
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+<!-- ==========================================
+     AUTH / PUBLIC PAGES
+=========================================== -->
+
+<main class="public-main">
+
+    {% with messages=get_flashed_messages() %}
+
+        {% if messages %}
+
+            <div class="flash-container">
+
+                {% for m in messages %}
+
+                    <div class="flash">
+                        {{ m }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
 </main>
-</body></html>
+
+{% endif %}
+
+</body>
+
+</html>
