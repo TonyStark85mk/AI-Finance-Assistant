@@ -2,423 +2,979 @@
 
 {% block content %}
 
-<!-- Dashboard Header -->
-<div class="dashboard-header">
-    <div>
-        <div class="eyebrow">
-            <span class="eyebrow-dot"></span>
-            FINANCIAL OVERVIEW
-        </div>
-
-        <h1>Welcome back, {{name}} 👋</h1>
-        <p>Here's what's happening with your money.</p>
-    </div>
-
-    <a class="primary-btn" href="{{url_for('transactions')}}">
-        <span>+</span>
-        Add Transaction
-    </a>
-</div>
+<div class="finance-dashboard">
 
 
-<!-- KPI Cards -->
-<div class="finance-cards">
+    <!-- ==========================================
+         PAGE HEADER
+    =========================================== -->
 
-    <div class="finance-card income-card">
-        <div class="card-top">
-            <div class="finance-icon income-icon">↗</div>
-            <span class="card-label">TOTAL INCOME</span>
-        </div>
-
-        <h2>₹{{"{:,.2f}".format(income)}}</h2>
-
-        <div class="card-bottom">
-            <span class="positive">● Income</span>
-            <span>This period</span>
-        </div>
-    </div>
-
-
-    <div class="finance-card expense-card">
-        <div class="card-top">
-            <div class="finance-icon expense-icon">↘</div>
-            <span class="card-label">TOTAL EXPENSES</span>
-        </div>
-
-        <h2>₹{{"{:,.2f}".format(expense)}}</h2>
-
-        <div class="card-bottom">
-            <span class="negative">● Expenses</span>
-            <span>This period</span>
-        </div>
-    </div>
-
-
-    <div class="finance-card balance-card">
-        <div class="card-top">
-            <div class="finance-icon balance-icon">₹</div>
-            <span class="card-label">AVAILABLE BALANCE</span>
-        </div>
-
-        <h2>₹{{"{:,.2f}".format(balance)}}</h2>
-
-        <div class="card-bottom">
-            <span class="balance-status">● Available</span>
-            <span>Current</span>
-        </div>
-    </div>
-
-
-    <div class="finance-card forecast-card">
-        <div class="card-top">
-            <div class="finance-icon forecast-icon">✦</div>
-            <span class="card-label">NEXT MONTH</span>
-        </div>
-
-        <h2>₹{{"{:,.2f}".format(forecast)}}</h2>
-
-        <div class="card-bottom">
-            <span class="forecast-status">✦ AI Forecast</span>
-            <span>Estimated</span>
-        </div>
-    </div>
-
-</div>
-
-
-<!-- Main Analytics -->
-<div class="analytics-grid">
-
-    <!-- Spending Chart -->
-    <section class="dashboard-panel chart-panel">
-
-        <div class="panel-header">
-            <div>
-                <span class="panel-kicker">ANALYTICS</span>
-                <h3>Income & Expenses</h3>
-                <p>Monthly financial activity</p>
-            </div>
-
-            <div class="chart-legend">
-                <span>
-                    <i class="legend-income"></i>
-                    Income
-                </span>
-
-                <span>
-                    <i class="legend-expense"></i>
-                    Expenses
-                </span>
-            </div>
-        </div>
-
-        <div class="chart-wrapper">
-            <canvas id="trend"></canvas>
-        </div>
-
-    </section>
-
-
-    <!-- AI Insight -->
-    <section class="dashboard-panel insight-panel">
-
-        <div class="panel-header">
-            <div>
-                <span class="panel-kicker">AI ASSISTANT</span>
-                <h3>Financial Insight</h3>
-            </div>
-
-            <div class="ai-status">
-                <span></span>
-                AI
-            </div>
-        </div>
-
-        <div class="ai-insight-box">
-            <div class="ai-icon">✦</div>
-
-            <div>
-                <strong>Smart recommendation</strong>
-                <p>{{insight}}</p>
-            </div>
-        </div>
-
-
-        <div class="category-section">
-
-            <div class="category-heading">
-                <h4>Top Spending Categories</h4>
-                <span>Top 5</span>
-            </div>
-
-            {% for c in categories[:5] %}
-
-            <div class="category-row">
-
-                <div class="category-info">
-                    <span class="category-name">{{c.category}}</span>
-                    <strong>₹{{"{:,.0f}".format(c.total)}}</strong>
-                </div>
-
-                <div class="category-track">
-                    <div class="category-progress"
-                         style="width: {{ ((c.total / categories[0].total) * 100) if categories and categories[0].total else 0 }}%;">
-                    </div>
-                </div>
-
-            </div>
-
-            {% endfor %}
-
-        </div>
-
-    </section>
-
-</div>
-
-
-<!-- Recent Transactions -->
-<section class="dashboard-panel transactions-panel">
-
-    <div class="panel-header transaction-header">
+    <section class="dashboard-heading">
 
         <div>
-            <span class="panel-kicker">ACTIVITY</span>
-            <h3>Recent Transactions</h3>
-            <p>Your latest financial activity</p>
+
+            <div class="section-label">
+                FINANCIAL OVERVIEW
+            </div>
+
+            <h1>
+                Finance Dashboard
+            </h1>
+
+            <p>
+                Overview of your financial health
+            </p>
+
         </div>
 
-        <a class="view-all-btn" href="{{url_for('transactions')}}">
-            View all →
-        </a>
 
-    </div>
+        <div class="heading-actions">
+
+            <div class="period-selector">
+
+                <div class="calendar-icon">
+
+                    <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <rect
+                            x="3"
+                            y="4"
+                            width="18"
+                            height="17"
+                            rx="2"
+                        ></rect>
+
+                        <path d="M16 2v4"></path>
+                        <path d="M8 2v4"></path>
+                        <path d="M3 10h18"></path>
+                    </svg>
+
+                </div>
+
+                <span>
+                    Current Financial Period
+                </span>
+
+                <span class="period-arrow">
+                    ⌄
+                </span>
+
+            </div>
 
 
-    <div class="table-container">
+            <a
+                href="{{ url_for('transactions') }}"
+                class="new-transaction"
+            >
 
-        <table class="modern-table">
+                <span class="plus-icon">
+                    +
+                </span>
 
-            <thead>
-                <tr>
-                    <th>DATE</th>
-                    <th>DESCRIPTION</th>
-                    <th>TYPE</th>
-                    <th>CATEGORY</th>
-                    <th class="amount-column">AMOUNT</th>
-                </tr>
-            </thead>
+                New Transaction
 
-            <tbody>
+            </a>
 
-                {% for t in recent %}
+        </div>
 
-                <tr>
+    </section>
 
-                    <td>
-                        <span class="transaction-date">
-                            {{t.date}}
-                        </span>
-                    </td>
 
-                    <td>
-                        <div class="transaction-description">
-                            <div class="transaction-avatar">
-                                {{t.description[0] if t.description else 'T'}}
-                            </div>
 
-                            <span>{{t.description}}</span>
-                        </div>
-                    </td>
+    <!-- ==========================================
+         KPI CARDS
+    =========================================== -->
 
-                    <td>
-                        {% if t.type|lower == 'income' %}
-                            <span class="type-badge income-badge">
-                                Income
-                            </span>
-                        {% else %}
-                            <span class="type-badge expense-badge">
-                                Expense
-                            </span>
-                        {% endif %}
-                    </td>
+    <section class="kpi-grid">
 
-                    <td>
-                        <span class="category-badge">
-                            {{t.category}}
-                        </span>
-                    </td>
 
-                    <td class="amount-column">
+        <!-- Revenue -->
 
-                        {% if t.type|lower == 'income' %}
-                            <span class="amount income-amount">
-                                +₹{{"{:,.2f}".format(t.amount)}}
-                            </span>
-                        {% else %}
-                            <span class="amount expense-amount">
-                                -₹{{"{:,.2f}".format(t.amount)}}
-                            </span>
-                        {% endif %}
+        <div class="kpi-card featured-kpi">
 
-                    </td>
+            <div class="kpi-title-row">
 
-                </tr>
+                <span>
+                    Total Revenue
+                </span>
+
+                <div class="kpi-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+            <div class="kpi-value">
+                ₹{{ "{:,.0f}".format(income) }}
+            </div>
+
+            <div class="kpi-footer">
+
+                <span class="kpi-subtext">
+                    Total recorded income
+                </span>
+
+                <span class="kpi-pill positive-pill">
+                    + Income
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Expenses -->
+
+        <div class="kpi-card">
+
+            <div class="kpi-title-row">
+
+                <span>
+                    Total Expenses
+                </span>
+
+                <div class="kpi-arrow light-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+            <div class="kpi-value dark-value">
+                ₹{{ "{:,.0f}".format(expense) }}
+            </div>
+
+            <div class="kpi-footer">
+
+                <span class="kpi-subtext">
+                    Total spending
+                </span>
+
+                <span class="kpi-pill expense-pill">
+                    - Expenses
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- Net Profit -->
+
+        <div class="kpi-card">
+
+            <div class="kpi-title-row">
+
+                <span>
+                    Net Balance
+                </span>
+
+                <div class="kpi-arrow light-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+            <div class="kpi-value dark-value">
+                ₹{{ "{:,.0f}".format(balance) }}
+            </div>
+
+            <div class="kpi-footer">
+
+                <span class="kpi-subtext">
+                    Income minus expenses
+                </span>
+
+                {% if balance >= 0 %}
+
+                    <span class="kpi-pill positive-pill">
+                        Healthy
+                    </span>
 
                 {% else %}
 
-                <tr>
-                    <td colspan="5" class="empty-state">
-                        No transactions found yet.
-                    </td>
-                </tr>
+                    <span class="kpi-pill expense-pill">
+                        Attention
+                    </span>
 
-                {% endfor %}
+                {% endif %}
 
-            </tbody>
+            </div>
 
-        </table>
+        </div>
 
-    </div>
 
-</section>
+
+        <!-- Forecast -->
+
+        <div class="kpi-card">
+
+            <div class="kpi-title-row">
+
+                <span>
+                    Next Month Forecast
+                </span>
+
+                <div class="kpi-arrow light-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+            <div class="kpi-value dark-value">
+                ₹{{ "{:,.0f}".format(forecast) }}
+            </div>
+
+            <div class="kpi-footer">
+
+                <span class="kpi-subtext">
+                    AI-powered estimate
+                </span>
+
+                <span class="kpi-pill forecast-pill">
+                    ✦ AI
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================
+         MAIN DASHBOARD GRID
+    =========================================== -->
+
+    <section
+        class="dashboard-grid"
+        id="performance"
+    >
+
+
+        <!-- ======================================
+             PERFORMANCE CHART
+        ======================================= -->
+
+        <div class="dashboard-card performance-card">
+
+            <div class="card-heading">
+
+                <div>
+
+                    <h2>
+                        Performance Overview
+                    </h2>
+
+                    <div class="chart-legend">
+
+                        <span>
+                            <i class="legend-dot expenses-dot"></i>
+                            Total Expenses
+                        </span>
+
+                        <span>
+                            <i class="legend-dot revenue-dot"></i>
+                            Total Revenue
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="chart-period">
+                    This Year
+                    <span>⌄</span>
+                </div>
+
+            </div>
+
+
+            <div class="chart-area">
+
+                <canvas id="performanceChart"></canvas>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ======================================
+             WALLET
+        ======================================= -->
+
+        <div class="dashboard-card wallet-card">
+
+            <div class="card-heading">
+
+                <div>
+
+                    <h2>
+                        My Wallet
+                    </h2>
+
+                    <p class="wallet-label">
+                        Your Balance
+                    </p>
+
+                </div>
+
+                <div class="wallet-arrow">
+                    ↗
+                </div>
+
+            </div>
+
+
+            <div class="wallet-balance">
+                ₹{{ "{:,.2f}".format(balance) }}
+            </div>
+
+
+            <div class="wallet-actions">
+
+                <a
+                    href="{{ url_for('transactions') }}"
+                    class="wallet-action"
+                    title="Transactions"
+                >
+                    ↓
+                </a>
+
+                <a
+                    href="{{ url_for('budgets') }}"
+                    class="wallet-action"
+                    title="Budgets"
+                >
+                    ♙
+                </a>
+
+                <a
+                    href="{{ url_for('transactions') }}"
+                    class="wallet-action"
+                    title="Transfer"
+                >
+                    ⇄
+                </a>
+
+                <a
+                    href="{{ url_for('transactions') }}"
+                    class="wallet-action"
+                    title="Add money"
+                >
+                    ↑
+                </a>
+
+            </div>
+
+
+            <div class="wallet-divider"></div>
+
+
+            <div class="wallet-spending-title">
+
+                <span>
+                    Spending Overview
+                </span>
+
+                <span>
+                    This month
+                </span>
+
+            </div>
+
+
+            <div class="wallet-spending-bar">
+
+                <div
+                    class="wallet-spending-progress"
+                    style="
+                        width:
+                        {% if income > 0 %}
+                            {{ ((expense / income) * 100) if expense < income else 100 }}%
+                        {% else %}
+                            0%
+                        {% endif %}
+                    "
+                ></div>
+
+            </div>
+
+
+            <div class="wallet-spending-footer">
+
+                <strong>
+                    ₹{{ "{:,.0f}".format(expense) }}
+                </strong>
+
+                <span>
+                    spent
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ======================================
+             TRANSACTIONS
+        ======================================= -->
+
+        <div class="dashboard-card transactions-card">
+
+            <div class="card-heading transactions-heading">
+
+                <div>
+
+                    <h2>
+                        All Transactions
+                    </h2>
+
+                    <p>
+                        Your latest financial activity
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="{{ url_for('transactions') }}"
+                    class="view-all"
+                >
+                    View all →
+                </a>
+
+            </div>
+
+
+            <div class="transactions-table-wrapper">
+
+                <table class="premium-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                DATE
+                            </th>
+
+                            <th>
+                                DESCRIPTION
+                            </th>
+
+                            <th>
+                                TYPE
+                            </th>
+
+                            <th>
+                                CATEGORY
+                            </th>
+
+                            <th class="table-amount">
+                                AMOUNT
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                    {% for t in recent %}
+
+                        <tr>
+
+                            <td>
+                                {{ t.date }}
+                            </td>
+
+
+                            <td>
+
+                                <div class="transaction-person">
+
+                                    <div class="transaction-icon">
+
+                                        {{ t.description[0]|upper
+                                           if t.description
+                                           else 'T' }}
+
+                                    </div>
+
+                                    <span>
+                                        {{ t.description }}
+                                    </span>
+
+                                </div>
+
+                            </td>
+
+
+                            <td>
+
+                                {% if t.type|lower == 'income' %}
+
+                                    <span class="status income-status">
+                                        Income
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status expense-status">
+                                        Expense
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+                            <td>
+
+                                <span class="category-tag">
+                                    {{ t.category or 'Other' }}
+                                </span>
+
+                            </td>
+
+
+                            <td class="table-amount">
+
+                                {% if t.type|lower == 'income' %}
+
+                                    <strong class="amount-income">
+                                        +₹{{ "{:,.2f}".format(t.amount) }}
+                                    </strong>
+
+                                {% else %}
+
+                                    <strong class="amount-expense">
+                                        -₹{{ "{:,.2f}".format(t.amount) }}
+                                    </strong>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                    {% else %}
+
+                        <tr>
+
+                            <td
+                                colspan="5"
+                                class="empty-transactions"
+                            >
+                                <div>
+                                    <span>₿</span>
+                                    <p>
+                                        No transactions yet.
+                                    </p>
+
+                                    <a
+                                        href="{{ url_for('transactions') }}"
+                                    >
+                                        Add your first transaction →
+                                    </a>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ======================================
+             SPENDING
+        ======================================= -->
+
+        <div class="dashboard-card spending-card">
+
+            <div class="card-heading">
+
+                <div>
+
+                    <h2>
+                        Spending
+                    </h2>
+
+                    <p>
+                        By category
+                    </p>
+
+                </div>
+
+                <div class="more-button">
+                    ⋮
+                </div>
+
+            </div>
+
+
+            <div class="spending-visual">
+
+                {% if categories %}
+
+                    <div
+                        class="spending-donut"
+                        id="spendingDonut"
+                    >
+
+                        <div class="donut-center">
+
+                            <span>
+                                Total
+                            </span>
+
+                            <strong>
+                                ₹{{ "{:,.0f}".format(expense) }}
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-donut">
+
+                        <div>
+                            <strong>₹0</strong>
+                            <span>No expenses</span>
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            {% if categories %}
+
+                <div class="spending-legend">
+
+                    {% for c in categories[:4] %}
+
+                        <div class="legend-category">
+
+                            <span class="legend-color color-{{ loop.index }}"></span>
+
+                            <span>
+                                {{ c.category }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p class="no-spending">
+                    Add expenses to see category analysis.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ==========================================
+         AI INSIGHT
+    =========================================== -->
+
+    <section class="ai-insight-card">
+
+        <div class="ai-insight-icon">
+            ✦
+        </div>
+
+        <div class="ai-insight-content">
+
+            <span>
+                AI FINANCIAL INSIGHT
+            </span>
+
+            <h3>
+                Smart recommendation
+            </h3>
+
+            <p>
+                {{ insight }}
+            </p>
+
+        </div>
+
+        <div class="ai-live">
+            <span></span>
+            AI Active
+        </div>
+
+    </section>
+
+</div>
+
 
 
 <script>
+
+/* =========================================================
+   PERFORMANCE CHART
+========================================================= */
 
 fetch("/api/chart")
     .then(response => response.json())
     .then(data => {
 
-        const canvas = document.getElementById("trend");
-        const ctx = canvas.getContext("2d");
+        const canvas =
+            document.getElementById("performanceChart");
 
-        const incomeGradient = ctx.createLinearGradient(0, 0, 0, 350);
-        incomeGradient.addColorStop(0, "rgba(34, 197, 94, 0.20)");
-        incomeGradient.addColorStop(1, "rgba(34, 197, 94, 0)");
+        if (!canvas) {
+            return;
+        }
 
-        const expenseGradient = ctx.createLinearGradient(0, 0, 0, 350);
-        expenseGradient.addColorStop(0, "rgba(239, 68, 68, 0.16)");
-        expenseGradient.addColorStop(1, "rgba(239, 68, 68, 0)");
+        const ctx =
+            canvas.getContext("2d");
 
-        new Chart(canvas, {
 
-            type: "line",
+        const expenseGradient =
+            ctx.createLinearGradient(
+                0,
+                0,
+                0,
+                330
+            );
 
-            data: {
-                labels: data.months,
+        expenseGradient.addColorStop(
+            0,
+            "rgba(124, 58, 237, 0.65)"
+        );
 
-                datasets: [
+        expenseGradient.addColorStop(
+            1,
+            "rgba(124, 58, 237, 0.10)"
+        );
 
-                    {
-                        label: "Income",
-                        data: data.income,
 
-                        borderColor: "#22c55e",
-                        backgroundColor: incomeGradient,
+        const incomeGradient =
+            ctx.createLinearGradient(
+                0,
+                0,
+                0,
+                330
+            );
 
-                        borderWidth: 3,
+        incomeGradient.addColorStop(
+            0,
+            "rgba(221, 214, 254, 0.70)"
+        );
 
-                        pointBackgroundColor: "#ffffff",
-                        pointBorderColor: "#22c55e",
-                        pointBorderWidth: 3,
-                        pointRadius: 4,
-                        pointHoverRadius: 7,
+        incomeGradient.addColorStop(
+            1,
+            "rgba(221, 214, 254, 0.18)"
+        );
 
-                        fill: true,
-                        tension: 0.4
-                    },
 
-                    {
-                        label: "Expenses",
-                        data: data.expense,
+        new Chart(
+            canvas,
+            {
 
-                        borderColor: "#ef4444",
-                        backgroundColor: expenseGradient,
+                type: "bar",
 
-                        borderWidth: 3,
+                data: {
 
-                        pointBackgroundColor: "#ffffff",
-                        pointBorderColor: "#ef4444",
-                        pointBorderWidth: 3,
-                        pointRadius: 4,
-                        pointHoverRadius: 7,
+                    labels: data.months,
 
-                        fill: true,
-                        tension: 0.4
-                    }
+                    datasets: [
 
-                ]
-            },
+                        {
+                            label: "Total Expenses",
 
-            options: {
+                            data: data.expense,
 
-                responsive: true,
+                            backgroundColor:
+                                expenseGradient,
 
-                maintainAspectRatio: false,
+                            borderRadius: 8,
 
-                interaction: {
-                    intersect: false,
-                    mode: "index"
-                },
+                            borderSkipped: false,
 
-                plugins: {
+                            barPercentage: 0.62,
 
-                    legend: {
-                        display: false
-                    },
-
-                    tooltip: {
-                        backgroundColor: "#111827",
-                        titleColor: "#ffffff",
-                        bodyColor: "#d1d5db",
-                        padding: 12,
-                        cornerRadius: 10,
-                        displayColors: true
-                    }
-
-                },
-
-                scales: {
-
-                    x: {
-                        grid: {
-                            display: false
+                            categoryPercentage: 0.72
                         },
 
-                        border: {
-                            display: false
-                        },
+                        {
+                            label: "Total Revenue",
 
-                        ticks: {
-                            color: "#8a94a6",
-                            font: {
-                                size: 12
-                            }
+                            data: data.income,
+
+                            backgroundColor:
+                                incomeGradient,
+
+                            borderRadius: 8,
+
+                            borderSkipped: false,
+
+                            barPercentage: 0.62,
+
+                            categoryPercentage: 0.72
                         }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+                    interaction: {
+                        mode: "index",
+                        intersect: false
                     },
 
-                    y: {
 
-                        beginAtZero: true,
+                    plugins: {
 
-                        grid: {
-                            color: "rgba(148, 163, 184, 0.12)"
-                        },
-
-                        border: {
+                        legend: {
                             display: false
                         },
 
-                        ticks: {
-                            color: "#8a94a6",
-                            font: {
-                                size: 12
+
+                        tooltip: {
+
+                            backgroundColor:
+                                "#15152a",
+
+                            titleColor:
+                                "#ffffff",
+
+                            bodyColor:
+                                "#d9d9e7",
+
+                            padding: 14,
+
+                            cornerRadius: 12,
+
+                            displayColors: true,
+
+                            callbacks: {
+
+                                label:
+                                    function(context) {
+
+                                        return (
+                                            " ₹" +
+                                            Number(
+                                                context.raw
+                                            ).toLocaleString(
+                                                "en-IN"
+                                            )
+                                        );
+
+                                    }
+
+                            }
+
+                        }
+
+                    },
+
+
+                    scales: {
+
+                        x: {
+
+                            grid: {
+                                display: false
                             },
 
-                            callback: function(value) {
-                                return "₹" + value;
+                            border: {
+                                display: false
+                            },
+
+                            ticks: {
+
+                                color: "#737d99",
+
+                                font: {
+                                    size: 11,
+                                    weight: "500"
+                                }
+
                             }
+
+                        },
+
+
+                        y: {
+
+                            beginAtZero: true,
+
+                            grid: {
+
+                                color:
+                                    "rgba(85, 76, 120, 0.10)",
+
+                                drawBorder: false
+
+                            },
+
+                            border: {
+                                display: false
+                            },
+
+                            ticks: {
+
+                                color: "#7b849f",
+
+                                font: {
+                                    size: 10
+                                },
+
+                                callback:
+                                    function(value) {
+
+                                        return "₹" +
+                                            Number(value)
+                                                .toLocaleString(
+                                                    "en-IN"
+                                                );
+
+                                    }
+
+                            }
+
                         }
 
                     }
@@ -426,10 +982,85 @@ fetch("/api/chart")
                 }
 
             }
+        );
 
-        });
+    })
+    .catch(error => {
+
+        console.error(
+            "Chart loading error:",
+            error
+        );
 
     });
+
+
+
+/* =========================================================
+   SPENDING DONUT
+========================================================= */
+
+{% if categories %}
+
+const spendingCategories = [
+    {% for c in categories[:4] %}
+    {{ c.total }}{% if not loop.last %},{% endif %}
+    {% endfor %}
+];
+
+
+const totalSpending =
+    spendingCategories.reduce(
+        (sum, value) => sum + value,
+        0
+    );
+
+
+if (totalSpending > 0) {
+
+    const donut =
+        document.getElementById(
+            "spendingDonut"
+        );
+
+    const donutColors = [
+        "#7138f5",
+        "#9a67f7",
+        "#c1a4fb",
+        "#e1d6fd"
+    ];
+
+    let current = 0;
+
+    const gradientParts = [];
+
+    spendingCategories.forEach(
+        function(value, index) {
+
+            const percentage =
+                (value / totalSpending) * 100;
+
+            const next =
+                current + percentage;
+
+            gradientParts.push(
+                `${donutColors[index]}
+                 ${current}%
+                 ${next}%`
+            );
+
+            current = next;
+
+        }
+    );
+
+    donut.style.background =
+        `conic-gradient(
+            ${gradientParts.join(",")}
+        )`;
+}
+
+{% endif %}
 
 </script>
 
