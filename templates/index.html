@@ -1,6 +1,77 @@
-{% extends "base.html" %}{% block content %}
-<section class="hero"><div><span class="tag">AI + MACHINE LEARNING</span><h1>Take control of<br><span>your finances.</span></h1>
-<p>Track expenses, automate categories, monitor budgets and understand your spending with a simple AI Finance Assistant.</p>
-<a class="btn" href="{{ url_for('register') }}">Get Started</a></div>
-<div class="hero-card"><div class="orb">₹</div><h3>Smart Finance</h3><p>Expense classification • Budget tracking • Spending insights • Forecasting</p></div></section>
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="landing-page">
+
+    <div class="landing-content">
+
+        <div class="landing-badge">
+            ✦ AI-POWERED PERSONAL FINANCE
+        </div>
+
+        <h1>
+            Take control of<br>
+            <span>your finances.</span>
+        </h1>
+
+        <p class="landing-description">
+            Track expenses, manage budgets, understand your spending,
+            and get intelligent financial insights — all in one place.
+        </p>
+
+        <div class="landing-actions">
+            <a class="landing-btn primary" href="{{ url_for('register') }}">
+                Create Account
+            </a>
+
+            <a class="landing-btn secondary" href="{{ url_for('login') }}">
+                Sign In
+            </a>
+        </div>
+
+        <div class="landing-features">
+            <div>
+                <strong>AI Insights</strong>
+                <span>Smart financial analysis</span>
+            </div>
+
+            <div>
+                <strong>Expense Tracking</strong>
+                <span>Monitor every transaction</span>
+            </div>
+
+            <div>
+                <strong>Forecasting</strong>
+                <span>Plan your future spending</span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="landing-visual">
+
+        <div class="finance-orb">
+            ₹
+        </div>
+
+        <div class="floating-card card-one">
+            <span>Monthly Balance</span>
+            <strong>₹24,850</strong>
+        </div>
+
+        <div class="floating-card card-two">
+            <span>AI Insight</span>
+            <strong>Spending looks healthy</strong>
+        </div>
+
+        <div class="floating-card card-three">
+            <span>Forecast</span>
+            <strong>₹31,420</strong>
+        </div>
+
+    </div>
+
+</section>
+
 {% endblock %}
