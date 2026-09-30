@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<section class="landing-page">
+<div class="landing-page">
 
     <div class="landing-content">
 
@@ -11,74 +11,29 @@
         </div>
 
         <h1>
-            Take control of<br>
+            Take control of
             <span>your finances.</span>
         </h1>
 
-        <p class="landing-description">
+        <p>
             Track expenses, manage budgets, understand your spending,
             and get intelligent financial insights — all in one place.
         </p>
 
-        <div class="landing-actions">
+        <div class="landing-buttons">
 
-            <a class="landing-btn primary"
-               href="{{ url_for('register') }}">
-                Create Account
-            </a>
-
-            <a class="landing-btn secondary"
-               href="{{ url_for('login') }}">
+            <a href="{{ url_for('login') }}" class="login-button">
                 Sign In
             </a>
 
-        </div>
-
-        <div class="landing-features">
-
-            <div>
-                <strong>AI Insights</strong>
-                <span>Smart financial analysis</span>
-            </div>
-
-            <div>
-                <strong>Expense Tracking</strong>
-                <span>Monitor every transaction</span>
-            </div>
-
-            <div>
-                <strong>Forecasting</strong>
-                <span>Plan your future spending</span>
-            </div>
+            <a href="{{ url_for('register') }}" class="register-button">
+                Create Account
+            </a>
 
         </div>
 
     </div>
 
-
-    <div class="landing-visual">
-
-        <div class="finance-orb">
-            ₹
-        </div>
-
-        <div class="floating-card card-one">
-            <span>Monthly Balance</span>
-            <strong>₹24,850</strong>
-        </div>
-
-        <div class="floating-card card-two">
-            <span>AI Insight</span>
-            <strong>Spending looks healthy</strong>
-        </div>
-
-        <div class="floating-card card-three">
-            <span>Forecast</span>
-            <strong>₹31,420</strong>
-        </div>
-
-    </div>
-
-</section>
+</div>
 
 {% endblock %}
